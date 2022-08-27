@@ -5,6 +5,7 @@ import * as headerStyles from "./header.module.scss"
 const Header = () => {
     return (
         <header className={headerStyles.header}>
+          <div className={headerStyles.overlay}></div>
           <div className={headerStyles.heroContent}>
             <p className={headerStyles.brand}>
               <Link to="/">Ibas Majid</Link>
@@ -14,7 +15,14 @@ const Header = () => {
             </p>
           </div>
           <nav className={headerStyles.navContainer}>
-            <ul className={headerStyles.navList}>...</ul>
+            <ul className={headerStyles.navList}>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about/">About</Link>
+              </li>
+            </ul>
           </nav>
         </header>
       )
