@@ -20,13 +20,10 @@ const Header = ({ siteTitle }) => (
       }}
     >
       <StaticImage
-        alt="Clifford, a reddish-brown pitbull, dozing in a bean bag chair"
+        alt="the smart computer icon"
         src="../images/the-smart-computer-icon.png"
       />
-      {"The Smart Computer"}
-    </Link>
-    <Link>
-      Deep learning
+      {"The Smart Computer by Dominique Gilleman"}
     </Link>
   </header>
 )
