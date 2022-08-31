@@ -6,5 +6,10 @@
 
 module.exports = {
   /* Your site config here */
-  plugins: ["gatsby-plugin-sass"],
+  siteMetadata: {
+    title: "Dominique Gilleman",
+    description: "I teach JavaScript, React, GraphQL and Gatsby",
+    author: "Ibaslogic",
+  },
+  plugins: ["gatsby-plugin-sass",'gatsby-plugin-postcss'],
 }
