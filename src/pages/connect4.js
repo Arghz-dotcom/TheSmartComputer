@@ -1,3 +1,5 @@
+// from https://dev.to/mtliendo/building-connect4-adding-logic-d57
+
 import React from "react"
 import { useReducer } from 'react'
 import Layout from "../components/layout"
