@@ -15,7 +15,7 @@ const initialGameState = {
     [null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
+    [null, 1, null, 2, null, null, null],
   ],
   gameOver: false,
   message: '',

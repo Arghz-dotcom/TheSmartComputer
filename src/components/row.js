@@ -1,4 +1,5 @@
 import React from "react"
+import * as gameStyles from '../styles/Connect4.module.css'
 
 const Row = ({ row, play }) => {
     return (
@@ -11,9 +12,16 @@ const Row = ({ row, play }) => {
   }
 
   const Cell = ({ value, columnIndex, play }) => {
+    let color = 'whiteCircle'
+
+    if (value === 1) { color = 'redCircle'} 
+    else if (value === 2) { color = 'yellowCircle'}
+    
     return (
         <td>
-            a
+            <div justify="center" align="center" className={gameStyles.gameCell} onClick={() => {play(columnIndex)}}>
+                <div className={gameStyles[color]} />
+            </div>
         </td>
     )
   }
