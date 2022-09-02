@@ -4,8 +4,7 @@ import React from "react"
 import { useReducer } from 'react'
 import Layout from "../components/layout"
 import Row from "../components/row"
-import { deepCloneBoard } from '../utils/gameUtils'
-import { generateNewBoard } from '../utils/gameUtils'
+import { generateNewBoard, play } from '../utils/gameUtils'
 
 const gameReducer = (state, action) => {
   switch (action.type) {
@@ -47,35 +46,17 @@ const initialGameState = {
     [null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null],
-    [null, 1, null, 2, null, null, null],
+    [null, null, null, null, null, null, null],
   ],
   gameOver: false,
   message: '',
 }
-
-
 
 const Connect4 = () => {
   const [gameState, dispatchGameState] = useReducer(
     gameReducer,
     initialGameState
   )
-
-  const play = (c) => {
-    let board = deepCloneBoard(gameState.board)
-    for (let r = 5; r >= 0; r--) {
-      if (!board[r][c]) {
-        board[r][c] = gameState.currentPlayer
-        break
-       }
-    }
-    const nextPlayer =
-    gameState.currentPlayer === gameState.player1
-      ? gameState.player2
-      : gameState.player1
-  
-    dispatchGameState({ type: 'togglePlayer', nextPlayer, board })
-  }
 
 
   return (
@@ -84,11 +65,12 @@ const Connect4 = () => {
         <table>
         <tbody>
           {gameState.board.map((row, i) => (
-            <Row key={i} row={row} play={play} />
+            <Row key={i} row={row} play={play} gameState={gameState} dispatchGameState={dispatchGameState} />
           ))}
         </tbody>
       </table>
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
+      <div>{gameState.message}</div>
     </Layout>
   )
 }
