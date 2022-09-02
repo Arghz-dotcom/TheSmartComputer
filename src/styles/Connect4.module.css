@@ -1,10 +1,3 @@
-.gameCell {
-    height: 70px;
-    width: 70px;
-    background-color: #1990ff;
-    cursor: pointer;
-  }
-
 .whiteCircle,
 .redCircle,
 .yellowCircle {

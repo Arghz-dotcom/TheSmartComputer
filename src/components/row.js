@@ -19,7 +19,7 @@ const Row = ({ row, play }) => {
     
     return (
         <td>
-            <div justify="center" align="center" className={gameStyles.gameCell} onClick={() => {play(columnIndex)}} onKeyDown={() => {play(columnIndex)}}>
+            <div justify="center" align="center" className="h-70 w-70 bg-sky-500 cursor-pointer" onClick={() => {play(columnIndex)}} onKeyDown={() => {play(columnIndex)}}>
                 <div className={gameStyles[color]} />
             </div>
         </td>
