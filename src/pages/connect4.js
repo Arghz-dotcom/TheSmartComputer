@@ -16,7 +16,7 @@ const gameReducer = (state, action) => {
     case 'togglePlayer':
       return {
         ...state,
-        currentPlayer: action.nextPlayer,
+        currentPlayer: action.nextP,
         board: action.board,
       }
     case 'endGame':
