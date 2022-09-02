@@ -5,6 +5,7 @@ import { useReducer } from 'react'
 import Layout from "../components/layout"
 import Row from "../components/row"
 import { deepCloneBoard } from '../utils/gameUtils'
+import { generateNewBoard } from '../utils/gameUtils'
 
 const gameReducer = (state, action) => {
   switch (action.type) {
@@ -87,6 +88,7 @@ const Connect4 = () => {
           ))}
         </tbody>
       </table>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
     </Layout>
   )
 }

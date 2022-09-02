@@ -1,3 +1,12 @@
+export const generateNewBoard = () => [
+  [null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null],
+]
+
 export const deepCloneBoard = (board) => [
     [...board[0]],
     [...board[1]],
