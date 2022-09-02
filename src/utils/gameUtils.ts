@@ -1,4 +1,6 @@
-export const generateNewBoard = () => [
+import { Dispatch, DispatchWithoutAction } from "react"
+
+export const generateNewBoard = ():null[][] => [
   [null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null],
@@ -7,7 +9,7 @@ export const generateNewBoard = () => [
   [null, null, null, null, null, null, null],
 ]
 
-export const deepCloneBoard = (board) => [
+export const deepCloneBoard = (board:null[][]) => [
     [...board[0]],
     [...board[1]],
     [...board[2]],
@@ -16,7 +18,7 @@ export const deepCloneBoard = (board) => [
     [...board[5]],
   ]
 
-  const checkVertical = (board) => {
+  const checkVertical = (board:null[][]) => {
     // Check only if row is 3 or greater
     for (let r = 3; r < 6; r++) {
       for (let c = 0; c < 7; c++) {
@@ -33,7 +35,7 @@ export const deepCloneBoard = (board) => [
     }
   }
   
-  const checkHorizontal = (board) => {
+  const checkHorizontal = (board:null[][]) => {
     // Check only if column is 3 or less
     for (let r = 0; r < 6; r++) {
       for (let c = 0; c < 4; c++) {
@@ -50,7 +52,7 @@ export const deepCloneBoard = (board) => [
     }
   }
   
-  const checkDiagonalRight = (board) => {
+  const checkDiagonalRight = (board:null[][]) => {
     // Check only if row is 3 or greater AND column is 3 or less
     for (let r = 3; r < 6; r++) {
       for (let c = 0; c < 4; c++) {
@@ -67,7 +69,7 @@ export const deepCloneBoard = (board) => [
     }
   }
   
-  const checkDiagonalLeft = (board) => {
+  const checkDiagonalLeft = (board:null[][]) => {
     // Check only if row is 3 or greater AND column is 3 or greater
     for (let r = 3; r < 6; r++) {
       for (let c = 3; c < 7; c++) {
@@ -84,7 +86,7 @@ export const deepCloneBoard = (board) => [
     }
   }
   
-  const checkDraw = (board) => {
+  const checkDraw = (board:null[][]) => {
     for (let r = 0; r < 6; r++) {
       for (let c = 0; c < 7; c++) {
         if (board[r][c] === null) {
@@ -95,7 +97,7 @@ export const deepCloneBoard = (board) => [
     return 'draw'
   }
   
-  export const checkForWin = (board) => {
+  export const checkForWin = (board:null[][]) => {
     return (
       checkVertical(board) ||
       checkDiagonalRight(board) ||
@@ -106,7 +108,7 @@ export const deepCloneBoard = (board) => [
   }
 
   // triggered when a user clicks a cell
-  export const play = (c, gameState, dispatchGameState) => {
+  export const play = (c:number, gameState:any, dispatchGameState:any) => {
     if (!gameState.gameOver) {
       let board = deepCloneBoard(gameState.board)
       //check if cell is taken by starting at the bottom row and working up
