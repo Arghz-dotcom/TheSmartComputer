@@ -118,13 +118,7 @@ export const deepCloneBoard = (board:null[][]) => [
       return Math.floor(Math.random() * (max - min + 1)) + min; 
   }
 
-  const nextPlayer = (gameState:any) => {
-    return gameState.currentPlayer === gameState.player1
-    ? gameState.player2
-    : gameState.player1
-  }
-
-  const player2Play = (board:null[][], player:any) => {
+  export const player2Play = (board:null[][], player:any) => {
     let available = false
     do {
       let col = generateRandomNumber(0,6)
@@ -157,13 +151,13 @@ export const deepCloneBoard = (board:null[][]) => [
       if (result === gameState.player1) {
         dispatchGameState({
           type: 'endGame',
-          message: 'Player1 (red) wins!',
+          message: 'Player (red) wins!',
           board,
         })
       } else if (result === gameState.player2) {
         dispatchGameState({
           type: 'endGame',
-          message: 'Player2 (yellow) wins!',
+          message: 'Player (yellow) wins!',
           board,
         })
       } else if (result === 'draw') {

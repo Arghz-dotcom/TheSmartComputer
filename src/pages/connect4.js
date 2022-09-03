@@ -4,11 +4,14 @@ import React from "react"
 import { useReducer } from 'react'
 import Layout from "../components/layout"
 import Row from "../components/row"
-import { generateNewBoard, play } from '../utils/gameUtils'
+import { generateNewBoard, play, player2Play } from '../utils/gameUtils'
 
 const gameReducer = (state, action) => {
   switch (action.type) {
     case 'newGame':
+      if (state.playerFirst === 'ComputerFirst')  {
+        player2Play(action.board, initialGameState.player2)
+      }
       return {
         ...initialGameState,
         board: action.board,
@@ -31,6 +34,11 @@ const gameReducer = (state, action) => {
         ...state,
         message: action.message,
       }
+    case 'playerFirst':
+      return {
+        ...state,
+        playerFirst: action.playerFirst
+      }
     default:
       throw Error(`Action "${action.type}" is not a valid action.`)
   }
@@ -50,6 +58,7 @@ const initialGameState = {
   ],
   gameOver: false,
   message: '',
+  playerFirst: 'HumanFirst'
 }
 
 const Connect4 = () => {
@@ -57,7 +66,6 @@ const Connect4 = () => {
     gameReducer,
     initialGameState
   )
-
 
   return (
     <Layout>
@@ -70,7 +78,11 @@ const Connect4 = () => {
         </tbody>
       </table>
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
-      <div>{gameState.message}</div>
+      <div>Message: {gameState.message}</div>
+      <div>
+        <input type="radio" value="HumanFirst" name="player" checked={gameState.playerFirst === 'HumanFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'HumanFirst'})}} /> HumanFirst<br/>
+        <input type="radio" value="ComputerFirst" name="player" checked={gameState.playerFirst === 'ComputerFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'ComputerFirst'})}}/> Computer First
+      </div>
     </Layout>
   )
 }
