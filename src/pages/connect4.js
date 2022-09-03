@@ -15,6 +15,7 @@ const gameReducer = (state, action) => {
       return {
         ...initialGameState,
         board: action.board,
+        playerFirst: state.playerFirst,
       }
     case 'togglePlayer':
       return {
