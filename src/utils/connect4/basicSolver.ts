@@ -4,6 +4,13 @@
 // used to use the class 
 export class basicSolver {
   
+    private board: null[][]
+    private player: any
+    
+    constructor(board: null[][], player: any) {
+        this.board = board, this.player = player
+    }
+
     /*
     * Genrate random int
     * @param min 
@@ -16,18 +23,22 @@ export class basicSolver {
         return Math.floor(Math.random() * (max - min + 1)) + min; 
     }
 
-    public player2Play = (board:null[][], player:any) => {
+    private playRandom = () => {
         let available = false
         do {
           let col = this.generateRandomNumber(0,6)
           for(let r = 5; r >= 0; r--) {
             console.log('row: %d, col: %d', r, col)
-            if (!board[r][col]) {
-              board[r][col] = player
+            if (!this.board[r][col]) {
+              this.board[r][col] = this.player
               available = true
               break
             }
           }
         } while(!available)
-      }
+    }
+
+    public player2Play = () => {
+        this.playRandom()
+    }
 }

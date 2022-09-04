@@ -170,8 +170,8 @@ export const deepCloneBoard = (board:null[][]) => [
         })
       } else {
         const nextP = gameState.player1
-        let solver = new basicSolver()
-        solver.player2Play(board, gameState.player2)
+        let solver = new basicSolver(board, gameState.player2)
+        solver.player2Play()
         dispatchGameState({ type: 'togglePlayer', nextP, board })
       }
     }
