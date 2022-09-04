@@ -4,13 +4,15 @@ import React from "react"
 import { useReducer } from 'react'
 import Layout from "../components/layout"
 import Row from "../components/row"
-import { generateNewBoard, play, player2Play } from '../utils/gameUtils'
+import { generateNewBoard, play } from '../utils/connect4/gameUtils'
+import { basicSolver } from "../utils/connect4/basicSolver"
 
 const gameReducer = (state, action) => {
   switch (action.type) {
     case 'newGame':
       if (state.playerFirst === 'ComputerFirst')  {
-        player2Play(action.board, initialGameState.player2)
+        let solver = new basicSolver()
+        solver.player2Play(action.board, initialGameState.player2)
       }
       return {
         ...initialGameState,
