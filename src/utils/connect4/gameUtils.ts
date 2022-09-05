@@ -98,7 +98,7 @@ export const deepCloneBoard = (board:null[][]) => [
     return 'draw'
   }
   
-  export const checkForWin = (board:null[][]) => {
+  const checkForWin = (board:null[][]) => {
     return (
       checkVertical(board) ||
       checkDiagonalRight(board) ||
@@ -128,23 +128,32 @@ export const deepCloneBoard = (board:null[][]) => [
           message: 'Player (red) wins!',
           board,
         })
-      } else if (result === gameState.player2) {
-        dispatchGameState({
-          type: 'endGame',
-          message: 'Player (yellow) wins!',
-          board,
-        })
       } else if (result === 'draw') {
         dispatchGameState({
           type: 'endGame',
           message: 'Draw Game!',
           board,
         })
-      } else {
-        const nextP = gameState.player1
+      } else { // AI to play
         let solver = new basicSolver(board, gameState.player2)
         solver.solve()
-        dispatchGameState({ type: 'togglePlayer', nextP, board })
+        result = checkForWin(board)
+        if (result === gameState.player2) {
+          dispatchGameState({
+            type: 'endGame',
+            message: 'Player (yellow) wins!',
+            board,
+          })
+        } else if (result === 'draw') {
+          dispatchGameState({
+            type: 'endGame',
+            message: 'Draw Game!',
+            board,
+          })
+        } else {
+          const nextP = gameState.player1
+          dispatchGameState({ type: 'togglePlayer', nextP, board })
+        }
       }
     }
     // it's gameover and a user clicked a cell

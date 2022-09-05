@@ -51,14 +51,7 @@ const initialGameState = {
   player1: 1,
   player2: 2,
   currentPlayer: 1,
-  board: [
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-  ],
+  board: generateNewBoard(),
   gameOver: false,
   message: '',
   playerFirst: 'HumanFirst'

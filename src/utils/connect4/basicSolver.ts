@@ -42,21 +42,33 @@ export class basicSolver {
         return row
     }
 
+    private getRowColsFree = () => {
+        let freeColRowList: [number, number][] = []
+        for(let col = 0; col < 7; col++) {
+            let row = this.getRowFree(col)
+            freeColRowList.push([row, col])
+        }
+        return freeColRowList
+    }
+
     /**
-     * Play a random column
+     * Play a random column, but not where opponent can win next run
      */
-    private playRandom = () => {
-        let available = false
-        do {
-          let col = this.generateRandomNumber(0,6)
-          let row = this.getRowFree(col)
-          if (row != -1)
-          {
-            this.board[row][col] = this.player
-            available = true
-            break
-          }
-        } while(!available)
+    private playRandomSmart = () => {
+        let rowColsFreeList = this.getRowColsFree()
+        let freeColRowSmartList: [number, number][] = []
+        let opponentPlayer = 3 - this.player
+        for(let i = 0; i < rowColsFreeList.length-1; i++) {
+            const [row, col] = rowColsFreeList[i]
+            if (row > 0 && this.checkWinMove(row-1, col, opponentPlayer)) {
+                continue
+            }
+            freeColRowSmartList.push(rowColsFreeList[i])
+        }
+        const [row, col] = freeColRowSmartList.length > 0
+                         ? freeColRowSmartList[this.generateRandomNumber(0, freeColRowSmartList.length-1)]
+                         : rowColsFreeList[this.generateRandomNumber(0, rowColsFreeList.length-1)]
+        this.board[row][col] = this.player
     }
 
     /**
@@ -172,10 +184,31 @@ export class basicSolver {
         return false
     }
 
+    private not3onBaseline = ():boolean => {
+        let oppositePlayer = 3 - this.player
+        for(let col = 0; col < 3; col++) {
+            if (!this.board[5][col] && this.board[5][col+1] === oppositePlayer && this.board[5][col+2] === oppositePlayer && !this.board[5][col+3] && !this.board[5][col+4]) {
+                this.board[5][col+3] = this.player
+                return true
+            }
+        }
+        for(let col = 0; col < 3; col++) {
+            if (!this.board[5][col] && !this.board[5][col+1]&& this.board[5][col+2] === oppositePlayer && this.board[5][col+3] === oppositePlayer && !this.board[5][col+4]) {
+                this.board[5][col+1] = this.player
+                return true
+            }
+        }
+        return false
+    }
+
     public solve = () => {
+        // can win immediately
         if (this.winRightAway(this.player)) return
         let oppositePlayer = 3 - this.player
+        //can block opponent
         if (this.winRightAway(oppositePlayer)) return
-        this.playRandom()
+        //block if try 3 on baseline
+        if (this.not3onBaseline()) return
+        this.playRandomSmart()
     }
 }
