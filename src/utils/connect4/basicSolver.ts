@@ -2,8 +2,6 @@
 // used in another file
 // Export keyword or form should be
 
-import { createPortal } from "react-dom";
-
 // used to use the class 
 export class basicSolver {
   
@@ -184,6 +182,10 @@ export class basicSolver {
         return false
     }
 
+    /**
+     * Block opponent if he can do trick 3 on baseline
+     * @returns successful block
+     */
     private not3onBaseline = ():boolean => {
         let oppositePlayer = 3 - this.player
         for(let col = 0; col < 3; col++) {
