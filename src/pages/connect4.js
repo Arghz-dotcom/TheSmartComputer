@@ -12,7 +12,7 @@ const gameReducer = (state, action) => {
     case 'newGame':
       if (state.playerFirst === 'ComputerFirst')  {
         let solver = new basicSolver(action.board, initialGameState.player2)
-        solver.player2Play()
+        solver.solve()
       }
       return {
         ...initialGameState,

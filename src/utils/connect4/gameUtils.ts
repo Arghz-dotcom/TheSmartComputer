@@ -108,36 +108,8 @@ export const deepCloneBoard = (board:null[][]) => [
     )
   }
 
-  /*
-  * Genrate random int
-  * @param min 
-  * @param max 
-  * @returns random int - min & max inclusive
-  */
-  /*const generateRandomNumber = (min: number, max: number) => {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1)) + min; 
-  }
-
-  export const player2Play = (board:null[][], player:any) => {
-    let available = false
-    do {
-      let col = generateRandomNumber(0,6)
-      for(let r = 5; r >= 0; r--) {
-        console.log('row: %d, col: %d', r, col)
-        if (!board[r][col]) {
-          board[r][col] = player
-          available = true
-          break
-        }
-      }
-    } while(!available)
-  }*/
-
   // triggered when a user clicks a cell
   export const play = (c:number, gameState:any, dispatchGameState:any) => {
-    console.log('player: %d', gameState.currentPlayer)
     if (!gameState.gameOver) {
       let board = deepCloneBoard(gameState.board)
       //check if cell is taken by starting at the bottom row and working up
@@ -171,7 +143,7 @@ export const deepCloneBoard = (board:null[][]) => [
       } else {
         const nextP = gameState.player1
         let solver = new basicSolver(board, gameState.player2)
-        solver.player2Play()
+        solver.solve()
         dispatchGameState({ type: 'togglePlayer', nextP, board })
       }
     }
