@@ -7,8 +7,7 @@ export class alphaBetaSolver {
     
     constructor(board: null[][], currentPlayer: any) {
         let bitboard = this.boardToBitBoard(board)
-        this.bitBoardPosition = bitboard[0]
-        this.bitBoardMask = bitboard[1]
+        this.bitBoardPosition, this.bitBoardMask = bitboard[0], bitboard[1]
         this.player = currentPlayer
     }
 

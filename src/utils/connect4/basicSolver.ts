@@ -30,23 +30,49 @@ export class basicSolver {
      * @returns return row if available, otherwise -1
      */
     private getRowFree = (column: number): number => {
-        let row = -1
         for(let r = 5; r >= 0; r--) {
             if (!this.board[r][column]) {
-              row = r
-              break
+              return r
             }
         }
-        return row
+        return -1
     }
 
-    private getRowColsFree = () => {
+    private getRowColsFree = ():[number, number][] => {
         let freeColRowList: [number, number][] = []
         for(let col = 0; col < 7; col++) {
             let row = this.getRowFree(col)
-            freeColRowList.push([row, col])
+            if (row != -1) {
+                freeColRowList.push([row, col])
+            }
         }
+        console.log('freeColRowList length: %d', freeColRowList.length)
         return freeColRowList
+    }
+
+    private chooseRowColRandom = (list:[number, number][]):[number, number] => {
+        const weights:number[] = [1,1.3,2,3,2,1.3,1] //sum=11.6
+        let sumWeights = 0
+        console.log('list length: %d', list.length)
+        for(let i = 0; i < list.length; i++) {
+            const [, col] = list[i]
+            console.log('col analyze: %d, weight: %f', col, weights[col])
+            sumWeights += weights[col]
+        }
+        console.log('sumweights: %f', sumWeights)
+        let rnd = this.generateRandomNumber(0, sumWeights)
+        console.log('rnd: %f', rnd)
+        let curWeight = 0
+        for(let i = 0; i < list.length; i++) {
+            const [, col] = list[i]
+            console.log('col: %d', col)
+            curWeight += weights[col]
+            if (curWeight >= rnd) {
+                console.log('listi: %f', list[i])
+                return list[i]
+            }
+        }
+        return list[list.length-1]
     }
 
     /**
@@ -56,16 +82,17 @@ export class basicSolver {
         let rowColsFreeList = this.getRowColsFree()
         let freeColRowSmartList: [number, number][] = []
         let opponentPlayer = 3 - this.player
-        for(let i = 0; i < rowColsFreeList.length-1; i++) {
+        for(let i = 0; i < rowColsFreeList.length; i++) {
             const [row, col] = rowColsFreeList[i]
             if (row > 0 && this.checkWinMove(row-1, col, opponentPlayer)) {
                 continue
             }
             freeColRowSmartList.push(rowColsFreeList[i])
         }
+        console.log('freeColRowSmartListLength: %d', freeColRowSmartList.length)
         const [row, col] = freeColRowSmartList.length > 0
-                         ? freeColRowSmartList[this.generateRandomNumber(0, freeColRowSmartList.length-1)]
-                         : rowColsFreeList[this.generateRandomNumber(0, rowColsFreeList.length-1)]
+                         ? this.chooseRowColRandom(freeColRowSmartList)
+                         : this.chooseRowColRandom(rowColsFreeList)
         this.board[row][col] = this.player
     }
 
