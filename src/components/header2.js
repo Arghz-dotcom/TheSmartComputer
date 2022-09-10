@@ -1,25 +1,26 @@
 import React from "react"
+import { Link } from "gatsby"
 
 const Logo = () => {
     return (
-        <a href="#" class="text-3xl text-[#191a20] font-bold tracking-wide">
-                    ARGHZ
-                </a>
+        <Link to="/" className="text-3xl text-[#191a20] font-bold tracking-wide uppercase">
+            Arghz
+        </Link>
     )
 }
 
 const Menu = () => {
     return (
         <div class="font-sans text-sm text-[#7a7a7a] hidden lg:flex">
-            <a href="#" class="block mt-4 lg:inline-block text-[#fba70b] lg:mt-0 mr-10 uppercase">
+            <Link to="/" className="block mt-4 lg:inline-block text-[#fba70b] lg:mt-0 mr-10 uppercase">
                 Home
-            </a>
-            <a href="#" class="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10 uppercase">
+            </Link>
+            <Link href="/connect4" className="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10 uppercase">
                 Connect4
-            </a>
-            <a href="#" class="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0 uppercase">
+            </Link>
+            <Link href="#" className="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0 uppercase">
                 About
-            </a>
+            </Link>
         </div>
     )
 }
