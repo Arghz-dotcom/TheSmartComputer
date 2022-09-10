@@ -3,7 +3,7 @@
 import React from "react"
 import { useReducer } from 'react'
 import Layout from "../components/layout"
-import Row from "../components/row"
+import Row from "../components/connect4/row"
 import { generateNewBoard, play } from '../utils/connect4/gameUtils'
 import { basicSolver } from "../utils/connect4/basicSolver"
 

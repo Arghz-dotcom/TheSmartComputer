@@ -1,5 +1,5 @@
 import React from "react"
-import * as gameStyles from '../styles/Connect4.module.css'
+import * as gameStyles from '../../styles/Connect4.module.css'
 
 const Row = ({ row, play, gameState, dispatchGameState }) => {
     return (
