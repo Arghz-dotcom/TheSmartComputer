@@ -65,19 +65,21 @@ const Connect4 = () => {
 
   return (
     <Layout>
-        <h1 class="text-xl">Connect4 Page</h1>
-        <table>
-        <tbody>
-          {gameState.board.map((row, i) => (
-            <Row key={i} row={row} play={play} gameState={gameState} dispatchGameState={dispatchGameState} />
-          ))}
-        </tbody>
-      </table>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
-      <div>Message: {gameState.message}</div>
-      <div>
-        <input type="radio" value="HumanFirst" name="player" checked={gameState.playerFirst === 'HumanFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'HumanFirst'})}} /> HumanFirst<br/>
-        <input type="radio" value="ComputerFirst" name="player" checked={gameState.playerFirst === 'ComputerFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'ComputerFirst'})}}/> Computer First
+      <div class="">
+        <h1 class="text-xl mb-10">Connect4 Page</h1>
+        <table class="mb-10">
+          <tbody>
+            {gameState.board.map((row, i) => (
+              <Row key={i} row={row} play={play} gameState={gameState} dispatchGameState={dispatchGameState} />
+            ))}
+          </tbody>
+        </table>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-10" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
+        <div>Message: {gameState.message}</div>
+        <div>
+          <input type="radio" value="HumanFirst" name="player" checked={gameState.playerFirst === 'HumanFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'HumanFirst'})}} /> HumanFirst<br/>
+          <input type="radio" value="ComputerFirst" name="player" checked={gameState.playerFirst === 'ComputerFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'ComputerFirst'})}}/> Computer First
+        </div>
       </div>
     </Layout>
   )

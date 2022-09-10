@@ -6,7 +6,7 @@ const Layout = props => {
     <div class="min-h-screen flex flex-col">
       <Header2 />
       <div class="flex-1 flex flex-col sm:flex-row lg:px-64">
-        <main class="flex-1">{props.children}</main>
+        <main class="flex-1 py-24">{props.children}</main>
       </div>
     </div>
   )

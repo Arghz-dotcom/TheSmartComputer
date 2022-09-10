@@ -11,20 +11,14 @@ const Logo = () => {
 const Menu = () => {
     return (
         <div class="font-sans text-sm text-[#7a7a7a] hidden lg:flex">
-            <a href="#" class="block mt-4 lg:inline-block text-[#fba70b] lg:mt-0 mr-10">
-                HOME
+            <a href="#" class="block mt-4 lg:inline-block text-[#fba70b] lg:mt-0 mr-10 uppercase">
+                Home
             </a>
-            <a href="#" class="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10">
-                ABOUT
+            <a href="#" class="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10 uppercase">
+                Connect4
             </a>
-            <a href="#" class="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10">
-                PORTFOLIO
-            </a>
-            <a href="#" class="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0 mr-10">
-                COMPANY
-            </a>
-            <a href="#" class="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0">
-                CONTACT
+            <a href="#" class="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0 uppercase">
+                About
             </a>
         </div>
     )
