@@ -74,7 +74,7 @@ const Connect4 = () => {
             ))}
           </tbody>
         </table>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-10" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
+        <button class="btn-primary mb-10" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
         <div>Message: {gameState.message}</div>
         <div>
           <input type="radio" value="HumanFirst" name="player" checked={gameState.playerFirst === 'HumanFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'HumanFirst'})}} /> HumanFirst<br/>
