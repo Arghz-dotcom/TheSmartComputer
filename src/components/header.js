@@ -43,7 +43,7 @@ const Hamburger = () => {
     )
 }
 
-const Header2 = () => {
+const Header = () => {
     return (
         <header>
             <nav class="flex items-center justify-between p-6 container mx-auto">
@@ -55,4 +55,4 @@ const Header2 = () => {
     )
   }
   
-  export default Header2
+  export default Header
