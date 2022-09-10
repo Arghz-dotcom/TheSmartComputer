@@ -65,17 +65,21 @@ const Connect4 = () => {
 
   return (
     <Layout>
-      <div class="">
-        <h1 class="text-xl mb-10">Connect4 Page</h1>
-        <table class="mb-10">
+      <div>
+        <h1 class="flex justify-center text-xl mb-10">Connect4</h1>
+        <table class="flex justify-center mb-10">
           <tbody>
             {gameState.board.map((row, i) => (
               <Row key={i} row={row} play={play} gameState={gameState} dispatchGameState={dispatchGameState} />
             ))}
           </tbody>
         </table>
-        <button class="btn-primary mb-10" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
-        <div>Message: {gameState.message}</div>
+        <div class="flex justify-center">
+          <button class="btn-primary mb-10 flex justify-center" onClick={() => {dispatchGameState({ type: 'newGame', board: generateNewBoard()})}}>New game</button>
+        </div>
+        
+        <div class="mb-6">Message: {gameState.message}</div>
+        <div>Who start:</div>
         <div>
           <input type="radio" value="HumanFirst" name="player" checked={gameState.playerFirst === 'HumanFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'HumanFirst'})}} /> HumanFirst<br/>
           <input type="radio" value="ComputerFirst" name="player" checked={gameState.playerFirst === 'ComputerFirst'} onChange={() => {dispatchGameState({ type: 'playerFirst', playerFirst: 'ComputerFirst'})}}/> Computer First
