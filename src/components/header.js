@@ -12,13 +12,16 @@ const Logo = () => {
 const Menu = () => {
     return (
         <div class="font-sans text-sm text-[#7a7a7a] hidden lg:flex">
-            <Link to="/" className="block mt-4 lg:inline-block text-[#fba70b] lg:mt-0 mr-10 uppercase">
+            <Link to="/" className="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10 uppercase"
+                  activeClassName="text-[#fba70b]">
                 Home
             </Link>
-            <Link href="/connect4" className="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10 uppercase">
+            <Link to="/connect4" className="block mt-4 lg:inline-block hover:text-[#fba70b] lg:mt-0 mr-10 uppercase"
+                  activeClassName="text-[#fba70b]">
                 Connect4
             </Link>
-            <Link href="#" className="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0 uppercase">
+            <Link to="#" className="block hover:text-[#fba70b] mt-4 lg:inline-block lg:mt-0 uppercase"
+                  activeClassName="text-[#fba70b]">
                 About
             </Link>
         </div>

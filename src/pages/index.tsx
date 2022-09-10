@@ -6,7 +6,7 @@ const Index = () => {
   return (
     <Layout>
 
-      <Card text="Connect 4 with artificial intelligence"/>
+      <Card text="Connect 4 with artificial intelligence" to="/connect4/"/>
 
     </Layout>
   )

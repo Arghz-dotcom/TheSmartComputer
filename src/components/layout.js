@@ -1,10 +1,10 @@
 import React from "react"
-import Header2 from "./header2"
+import Header from "./header"
 
 const Layout = props => {
   return (
     <div class="min-h-screen flex flex-col">
-      <Header2 />
+      <Header />
       <div class="flex-1 flex flex-col sm:flex-row lg:px-64">
         <main class="flex-1 py-24">{props.children}</main>
       </div>

@@ -1,15 +1,16 @@
 import React from "react"
 import { navigate } from "gatsby"
 import { StaticImage } from 'gatsby-plugin-image'
+import { Link } from "gatsby"
 
-const Card = ({text}) => {
+const Card = ({text, to}) => {
     return (
         <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm text-center">
-            <a href="#!">
+            <Link to={to}>
               <StaticImage class="rounded-t-lg mb-4" src="../images/features-icon-1.png" alt="" />
-            </a>
+            </Link>
             <p class="text-gray-700 text-base mb-4">{text}</p>
-            <button onClick={()=>{navigate("/connect4/")}} type="button" class="btn-primary">READ MORE</button>
+            <Link to={to} className="btn-primary">READ MORE</Link>
         </div>
     )
   }
