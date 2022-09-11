@@ -17,7 +17,7 @@ export class basicSolver {
     * @param max 
     * @returns random int - min & max inclusive
     */
-    private generateRandomNumber = (min: number, max: number) => {
+    private generateRandomNumber = (min: number, max: number):number => {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min; 
@@ -37,7 +37,7 @@ export class basicSolver {
         return -1
     }
 
-    private getRowColsFree = ():[number, number][] => {
+    private getRowColsFree = ():[row:number, col:number][] => {
         let freeColRowList: [number, number][] = []
         for(let col = 0; col < 7; col++) {
             let row = this.getRowFree(col)
@@ -48,7 +48,7 @@ export class basicSolver {
         return freeColRowList
     }
 
-    private chooseRowColRandom = (list:[number, number][]):[number, number] => {
+    private chooseRowColRandom = (list:[row:number, col:number][]):[row:number, col:number] => {
         const weights:number[] = [1,1.3,2,3,2,1.3,1] //sum=11.6
         let sumWeights = 0
         for(let i = 0; i < list.length; i++) {
@@ -244,7 +244,67 @@ export class basicSolver {
         return false
     }
     private play3aligned = ():boolean => {
+        let rowColsFreeList = this.getRowColsFree()
+        let rowColsFreeList2: [row:number, col:number][] = []
+        console.log("play3aligned")
+        for(let i=0; i < rowColsFreeList.length; i++) {
+            const [row, col] = rowColsFreeList[i]
 
+            let [count, minRow, minCol, maxRow, maxCol] = this.checkHorizontal(row, col, this.player)
+            minCol = Math.min(minCol, col)
+            maxCol = Math.max(maxCol, col)
+            console.log("row: %d, col: %d, horizontal count: %d", row, col, count)
+            let leftFree = minCol-1>=0 && !this.board[row][minCol-1]
+            let rightFree = maxCol+1<=6 && !this.board[row][maxCol+1]
+            if (count == 2 && (leftFree || rightFree)) {
+                rowColsFreeList2.push(rowColsFreeList[i])
+                continue
+            }
+
+            [count, minRow, minCol, maxRow, maxCol] = this.checkVertical(row, col, this.player)
+            minRow = Math.min(minRow, row)
+            maxRow = Math.max(maxRow, row)
+            console.log("row: %d, col: %d, vertical count: %d", row, col,count)
+            if (count == 2 && minRow-1>=0 && !this.board[minRow-1][col]) {
+                rowColsFreeList2.push(rowColsFreeList[i])
+                continue
+            }
+
+            [count, minRow, minCol, maxRow, maxCol] = this.checkDiag1(row, col, this.player)
+            minCol = Math.min(minCol, col)
+            maxCol = Math.max(maxCol, col)
+            minRow = Math.min(minRow, row)
+            maxRow = Math.max(maxRow, row)
+            console.log("row: %d, col: %d, diag1 count: %d", row, col, count)
+            leftFree = minCol-1>=0 && minRow-1>=0 && !this.board[minRow-1][minCol-1]
+            rightFree = maxCol+1<=6 && maxRow+1<=5 && !this.board[maxRow+1][maxCol+1]
+            if (count == 2 && (leftFree || rightFree)) {
+                rowColsFreeList2.push(rowColsFreeList[i])
+                continue
+            }
+
+            [count, minRow, minCol, maxRow, maxCol] = this.checkDiag2(row, col, this.player)
+            minCol = Math.min(minCol, col)
+            maxCol = Math.max(maxCol, col)
+            minRow = Math.min(minRow, row)
+            maxRow = Math.max(maxRow, row)
+            console.log("row: %d, col: %d, diag2 count: %d", row, col, count)
+            leftFree = minCol-1>=0 && maxRow+1<=5 && !this.board[maxRow+1][minCol-1]
+            rightFree = maxCol+1<=6 && minRow-1>=0 && !this.board[minRow-1][maxCol+1]
+            if (count == 2 && (leftFree || rightFree)) {
+                rowColsFreeList2.push(rowColsFreeList[i])
+                continue
+            }
+        }
+
+        if(rowColsFreeList2.length > 0) {
+            const [row, col] = this.chooseRowColRandom(rowColsFreeList2)
+            console.log("Play 3 aligned: row: %d, col: %d", row, col)
+            this.board[row][col] = this.player
+            return true
+        }
+        
+        return false
     }
 
     public solve = () => {
