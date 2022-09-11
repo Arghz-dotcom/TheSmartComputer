@@ -26,13 +26,13 @@ export class basicSolver {
 
     /**
      * get first row free in column
-     * @param column column in board
+     * @param col column in board
      * @returns return row if available, otherwise -1
      */
-    private getRowFree = (column: number): number => {
-        for(let r = 5; r >= 0; r--) {
-            if (!this.board[r][column]) {
-              return r
+    private getRowFree = (col: number): number => {
+        for(let row = 5; row >= 0; row--) {
+            if (!this.board[row][col]) {
+              return row
             }
         }
         return -1
@@ -46,29 +46,22 @@ export class basicSolver {
                 freeColRowList.push([row, col])
             }
         }
-        console.log('freeColRowList length: %d', freeColRowList.length)
         return freeColRowList
     }
 
     private chooseRowColRandom = (list:[number, number][]):[number, number] => {
         const weights:number[] = [1,1.3,2,3,2,1.3,1] //sum=11.6
         let sumWeights = 0
-        console.log('list length: %d', list.length)
         for(let i = 0; i < list.length; i++) {
             const [, col] = list[i]
-            console.log('col analyze: %d, weight: %f', col, weights[col])
             sumWeights += weights[col]
         }
-        console.log('sumweights: %f', sumWeights)
         let rnd = this.generateRandomNumber(0, sumWeights)
-        console.log('rnd: %f', rnd)
         let curWeight = 0
         for(let i = 0; i < list.length; i++) {
             const [, col] = list[i]
-            console.log('col: %d', col)
             curWeight += weights[col]
             if (curWeight >= rnd) {
-                console.log('listi: %f', list[i])
                 return list[i]
             }
         }
@@ -89,7 +82,6 @@ export class basicSolver {
             }
             freeColRowSmartList.push(rowColsFreeList[i])
         }
-        console.log('freeColRowSmartListLength: %d', freeColRowSmartList.length)
         const [row, col] = freeColRowSmartList.length > 0
                          ? this.chooseRowColRandom(freeColRowSmartList)
                          : this.chooseRowColRandom(rowColsFreeList)
@@ -103,7 +95,6 @@ export class basicSolver {
      * @param player player to check
      */
     private checkWinMove = (row:number, column:number, player:any):boolean => {
-        console.log('Analyse player: %d, row: %d, column: %d', player, row, column)
         // horizontal
         let count = 0;
         for (let c = column-1; c >= Math.max(0, column-3); c--) {
@@ -117,10 +108,9 @@ export class basicSolver {
             if (this.board[row][c] === player) {
                 count++
             }
-            else { break}
+            else { break }
         }
         if (count >= 3) {
-            console.log('player: %d win move horizontal', player)
             return true;
         }
             
@@ -131,18 +121,17 @@ export class basicSolver {
             if (this.board[r][column] === player) {
                 count++
             }  
-            else {break}
+            else { break }
         }
             
         for (let r = row+1; r <= Math.min(5, row+3); r++) {
             if (this.board[r][column] === player) {
                 count++
             }
-            else {break}
+            else { break }
         }
 
         if (count >= 3) {
-            console.log('player: %d win move vertical', player)
             return true;
         }
             
@@ -153,18 +142,17 @@ export class basicSolver {
             if (this.board[row+i][column+i] === player) {
                 count++;
             }
-            else {break}
+            else { break }
         }
             
         for (let i = 1; row+i <= Math.min(5, row+3) && column+i <= Math.min(6, column+3); i++) {
             if (this.board[row+i][column+i] === player) {
                 count++;
             }
-            else {break}
+            else { break }
         }
             
         if (count >= 3) {
-            console.log('player: %d win move diag 1', player)
             return true;
         }
 
@@ -174,18 +162,17 @@ export class basicSolver {
             if (this.board[row+i][column+i] === player) {
                 count++;
             }
-            else {break}
+            else { break }
         }
 
         for (let i = 1; row+i <= Math.min(5, row+3) && column-i >= Math.max(0, column-3); i++) {
             if (this.board[row+i][column+i] === player) {
                 count++;
             }
-            else {break}
+            else { break }
         }
 
         if (count >= 3) {
-            console.log('player: %d win move diag 2', player)
             return true;
         } 
 
@@ -199,11 +186,9 @@ export class basicSolver {
         for(let col = 0; col < 7; col++)
         {
             let row = this.getRowFree(col)
-            if (row != -1) {
-                if (this.checkWinMove(row, col, player)) {
-                    this.board[row][col] = this.player
-                    return true
-                }
+            if (row != -1 && this.checkWinMove(row, col, player)) {
+                this.board[row][col] = this.player
+                return true
             }
         }
         return false
