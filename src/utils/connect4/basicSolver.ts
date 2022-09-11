@@ -86,6 +86,94 @@ export class basicSolver {
         this.board[row][col] = this.player
     }
 
+    private checkHorizontal = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minCol:number = column, maxCol:number = column;
+        for (let c = column-1; c >= Math.max(0, column-3); c--) {
+            if (this.board[row][c] === player) {
+                minCol = c
+                count++
+            } 
+            else { break }
+        }     
+
+        for (let c = column+1; c <= Math.min(6, column+3); c++) {
+            if (this.board[row][c] === player) {
+                maxCol = c
+                count++
+            }
+            else { break }
+        }
+
+        return [count, row, minCol, row, maxCol]
+    }
+
+    private checkVertical = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minRow:number = row, maxRow: number = row;
+        for (let r = row-1; r >= Math.max(0, row-3); r--) {
+            if (this.board[r][column] === player) {
+                minRow = r
+                count++
+            }  
+            else { break }
+        }
+            
+        for (let r = row+1; r <= Math.min(5, row+3); r++) {
+            if (this.board[r][column] === player) {
+                maxRow = r
+                count++
+            }
+            else { break }
+        }
+
+        return [count, minRow, column, maxRow, column]
+    }
+
+    private checkDiag1 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minRow: number = row, maxRow: number = row, minCol: number = column, maxCol: number = column;
+        for (let i = -1; row+i >= Math.max(0, row-3) && column+i >= Math.max(0, column-3); i--) {
+            if (this.board[row+i][column+i] === player) {
+                minRow = row+i
+                minCol = column+i
+                count++;
+            }
+            else { break }
+        }
+            
+        for (let i = 1; row+i <= Math.min(5, row+3) && column+i <= Math.min(6, column+3); i++) {
+            if (this.board[row+i][column+i] === player) {
+                maxRow = row+i
+                maxCol = column+i
+                count++;
+            }
+            else { break }
+        }
+
+        return [count, minRow, minCol, maxRow, maxCol]
+    }
+
+    private checkDiag2 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minRow: number = row, maxRow: number = row, minCol: number = column, maxCol: number = column;
+        for (let i = -1; row+i >= Math.max(0, row-3) && column-i <= Math.min(6, column+3); i--) {
+            if (this.board[row+i][column+i] === player) {
+                minRow = row+i
+                maxCol = column-i
+                count++;
+            }
+            else { break }
+        }
+
+        for (let i = 1; row+i <= Math.min(5, row+3) && column-i >= Math.max(0, column-3); i++) {
+            if (this.board[row+i][column+i] === player) {
+                maxRow = row+i
+                minCol = column-i
+                count++;
+            }
+            else { break }
+        }
+
+        return [count, minRow, minCol, maxRow, maxCol]
+    }
+
     /**
      * Check if playing there is winning
      * @param row row on the board
@@ -94,82 +182,25 @@ export class basicSolver {
      */
     private checkWinMove = (row:number, column:number, player:any):boolean => {
         // horizontal
-        let count = 0;
-        for (let c = column-1; c >= Math.max(0, column-3); c--) {
-            if (this.board[row][c] === player) {
-                count++
-            } 
-            else { break }
-        }     
-
-        for (let c = column+1; c <= Math.min(6, column+3); c++) {
-            if (this.board[row][c] === player) {
-                count++
-            }
-            else { break }
-        }
+        let [count,,,,] = this.checkHorizontal(row, column, player)
         if (count >= 3) {
             return true;
         }
             
-        
         // vertical
-        count = 0;
-        for (let r = row-1; r >= Math.max(0, row-3); r--) {
-            if (this.board[r][column] === player) {
-                count++
-            }  
-            else { break }
-        }
-            
-        for (let r = row+1; r <= Math.min(5, row+3); r++) {
-            if (this.board[r][column] === player) {
-                count++
-            }
-            else { break }
-        }
-
+        [count,,,,] = this.checkVertical(row, column, player)
         if (count >= 3) {
             return true;
         }
-            
 
         // diag 1
-        count = 0;
-        for (let i = -1; row+i >= Math.max(0, row-3) && column+i >= Math.max(0, column-3); i--) {
-            if (this.board[row+i][column+i] === player) {
-                count++;
-            }
-            else { break }
-        }
-            
-        for (let i = 1; row+i <= Math.min(5, row+3) && column+i <= Math.min(6, column+3); i++) {
-            if (this.board[row+i][column+i] === player) {
-                count++;
-            }
-            else { break }
-        }
-            
+        [count,,,,] = this.checkDiag1(row, column, player)
         if (count >= 3) {
             return true;
         }
 
         // diag 2
-        count = 0;
-        for (let i = -1; row+i >= Math.max(0, row-3) && column-i <= Math.min(6, column+3); i--) {
-            if (this.board[row+i][column+i] === player) {
-                count++;
-            }
-            else { break }
-        }
-
-        for (let i = 1; row+i <= Math.min(5, row+3) && column-i >= Math.max(0, column-3); i++) {
-            if (this.board[row+i][column+i] === player) {
-                count++;
-            }
-            else { break }
-        }
-
+        [count,,,,] = this.checkDiag2(row, column, player)
         if (count >= 3) {
             return true;
         } 
@@ -212,6 +243,9 @@ export class basicSolver {
         }
         return false
     }
+    private play3aligned = ():boolean => {
+
+    }
 
     public solve = () => {
         // can win immediately
@@ -220,6 +254,8 @@ export class basicSolver {
         if (this.winRightAway(this.opponentPlayer)) return
         //block if try 3 on baseline
         if (this.not3onBaseline()) return
+        // try play 3
+        if (this.play3aligned()) return
         this.playRandomSmart()
     }
 }
