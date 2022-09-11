@@ -109,13 +109,13 @@ export const deepCloneBoard = (board:null[][]) => [
   }
 
   // triggered when a user clicks a cell
-  export const play = (c:number, gameState:any, dispatchGameState:any) => {
+  export const play = (col:number, gameState:any, dispatchGameState:any) => {
     if (!gameState.gameOver) {
       let board = deepCloneBoard(gameState.board)
       //check if cell is taken by starting at the bottom row and working up
-      for (let r = 5; r >= 0; r--) {
-        if (!board[r][c]) {
-          board[r][c] = gameState.currentPlayer
+      for (let row = 5; row >= 0; row--) {
+        if (!board[row][col]) {
+          board[row][col] = gameState.currentPlayer
           break
         }
       }
@@ -128,33 +128,39 @@ export const deepCloneBoard = (board:null[][]) => [
           message: 'Player (red) wins!',
           board,
         })
-      } else if (result === 'draw') {
+        return
+      } 
+      if (result === 'draw') {
         dispatchGameState({
           type: 'endGame',
           message: 'Draw Game!',
           board,
         })
-      } else { // AI to play
-        let solver = new basicSolver(board, gameState.player2)
-        solver.solve()
-        result = checkForWin(board)
-        if (result === gameState.player2) {
-          dispatchGameState({
-            type: 'endGame',
-            message: 'Player (yellow) wins!',
-            board,
-          })
-        } else if (result === 'draw') {
-          dispatchGameState({
-            type: 'endGame',
-            message: 'Draw Game!',
-            board,
-          })
-        } else {
-          const nextP = gameState.player1
-          dispatchGameState({ type: 'togglePlayer', nextP, board })
-        }
+        return
+      } 
+
+      // AI to play
+      let solver = new basicSolver(board, gameState.player2)
+      solver.solve()
+      result = checkForWin(board)
+      if (result === gameState.player2) {
+        dispatchGameState({
+          type: 'endGame',
+          message: 'Player (yellow) wins!',
+          board,
+        })
+        return
+      } 
+      if (result === 'draw') {
+        dispatchGameState({
+          type: 'endGame',
+          message: 'Draw Game!',
+          board,
+        })
+        return
       }
+      const nextP = gameState.player1
+      dispatchGameState({ type: 'togglePlayer', nextP, board })
     }
     // it's gameover and a user clicked a cell
     else {

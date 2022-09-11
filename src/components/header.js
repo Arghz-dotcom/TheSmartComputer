@@ -4,7 +4,7 @@ import { Link } from "gatsby"
 const Logo = () => {
     return (
         <Link to="/" className="text-3xl text-[#191a20] font-bold tracking-wide uppercase">
-            Arghz
+            The smart computer
         </Link>
     )
 }
