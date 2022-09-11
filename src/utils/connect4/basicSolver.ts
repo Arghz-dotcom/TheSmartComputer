@@ -5,12 +5,11 @@
 // used to use the class 
 export class basicSolver {
   
-    private board: null[][]
-    private player: any
-    
-    constructor(board: null[][], currentPlayer: any) {
-        this.board = board, this.player = currentPlayer
+    private get opponentPlayer() {
+        return 3-this.player
     }
+    
+    constructor(readonly board: null[][], readonly player: any) {}
 
     /**
     * Generate random int
@@ -74,10 +73,9 @@ export class basicSolver {
     private playRandomSmart = () => {
         let rowColsFreeList = this.getRowColsFree()
         let freeColRowSmartList: [number, number][] = []
-        let opponentPlayer = 3 - this.player
         for(let i = 0; i < rowColsFreeList.length; i++) {
             const [row, col] = rowColsFreeList[i]
-            if (row > 0 && this.checkWinMove(row-1, col, opponentPlayer)) {
+            if (row > 0 && this.checkWinMove(row-1, col, this.opponentPlayer)) {
                 continue
             }
             freeColRowSmartList.push(rowColsFreeList[i])
@@ -218,9 +216,8 @@ export class basicSolver {
     public solve = () => {
         // can win immediately
         if (this.winRightAway(this.player)) return
-        let oppositePlayer = 3 - this.player
         //can block opponent
-        if (this.winRightAway(oppositePlayer)) return
+        if (this.winRightAway(this.opponentPlayer)) return
         //block if try 3 on baseline
         if (this.not3onBaseline()) return
         this.playRandomSmart()
