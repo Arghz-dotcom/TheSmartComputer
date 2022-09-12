@@ -1,4 +1,4 @@
-import { basicSolver } from "./basicSolver";
+import { basicSolver } from "./rules/basicSolver";
 
 
 export const generateNewBoard = ():null[][] => [

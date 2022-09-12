@@ -19,7 +19,7 @@ export class alphaBetaSolver {
     private stringToBigInt = (x: string):bigint => {
         let result: bigint = BigInt(0)
         let shift: number = 0
-        for (let i = x.length-1; i >=0; i--) {
+        for (let i = x.length-1; i >= 0; i--) {
             result += BigInt(x[i]) << BigInt(shift++)
         }
         return result
@@ -56,6 +56,10 @@ export class alphaBetaSolver {
             }
         }
         return [this.stringToBigInt(position), this.stringToBigInt(mask)]
+    }
+
+    private negamax = ():number => {
+        
     }
 
 
