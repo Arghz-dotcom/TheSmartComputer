@@ -5,7 +5,7 @@ const Layout = props => {
   return (
     <div class="min-h-screen flex flex-col">
       <Header />
-      <div class="flex-1 flex flex-col sm:flex-row lg:px-64">
+      <div class="flex-1 flex flex-col sm:flex-row max-w-sm mx-auto">
         <main class="flex-1 py-24">{props.children}</main>
       </div>
     </div>

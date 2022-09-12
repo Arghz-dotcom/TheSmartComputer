@@ -19,7 +19,7 @@ const Row = ({ row, play, gameState, dispatchGameState }) => {
     
     return (
         <td>
-            <div justify="center" align="center" className="h-70 w-70 bg-sky-500 cursor-pointer" onClick={() => {play(columnIndex, gameState, dispatchGameState)}} onKeyDown={() => {play(columnIndex, gameState, dispatchGameState)}}>
+            <div role="presentation" className="h-70 w-70 bg-sky-500 cursor-pointer justify-center" onClick={() => {play(columnIndex, gameState, dispatchGameState)}} onKeyDown={() => {play(columnIndex, gameState, dispatchGameState)}}>
                 <div className={gameStyles[color]} />
             </div>
         </td>

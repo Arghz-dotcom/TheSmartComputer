@@ -5,6 +5,9 @@
 // used to use the class 
 export class basicSolver {
   
+    private readonly MAXCOLVALUE = 6
+    private readonly MAXROWVALUE = 5
+
     private get opponentPlayer() {
         return 3-this.player
     }
@@ -29,7 +32,7 @@ export class basicSolver {
      * @returns return row if available, otherwise -1
      */
     private getRowFree = (col: number): number => {
-        for(let row = 5; row >= 0; row--) {
+        for(let row = this.MAXROWVALUE; row >= 0; row--) {
             if (!this.board[row][col]) {
               return row
             }
@@ -39,7 +42,7 @@ export class basicSolver {
 
     private getRowColsFree = ():[row:number, col:number][] => {
         let freeColRowList: [number, number][] = []
-        for(let col = 0; col < 7; col++) {
+        for(let col = 0; col <= this.MAXCOLVALUE; col++) {
             let row = this.getRowFree(col)
             if (row != -1) {
                 freeColRowList.push([row, col])
@@ -96,7 +99,7 @@ export class basicSolver {
             else { break }
         }     
 
-        for (let c = column+1; c <= Math.min(6, column+3); c++) {
+        for (let c = column+1; c <= Math.min(this.MAXCOLVALUE, column+3); c++) {
             if (this.board[row][c] === player) {
                 maxCol = c
                 count++
@@ -117,7 +120,7 @@ export class basicSolver {
             else { break }
         }
             
-        for (let r = row+1; r <= Math.min(5, row+3); r++) {
+        for (let r = row+1; r <= Math.min(this.MAXROWVALUE, row+3); r++) {
             if (this.board[r][column] === player) {
                 maxRow = r
                 count++
@@ -139,7 +142,7 @@ export class basicSolver {
             else { break }
         }
             
-        for (let i = 1; row+i <= Math.min(5, row+3) && column+i <= Math.min(6, column+3); i++) {
+        for (let i = 1; row+i <= Math.min(this.MAXROWVALUE, row+3) && column+i <= Math.min(this.MAXCOLVALUE, column+3); i++) {
             if (this.board[row+i][column+i] === player) {
                 maxRow = row+i
                 maxCol = column+i
@@ -153,7 +156,7 @@ export class basicSolver {
 
     private checkDiag2 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
         let count = 0, minRow: number = row, maxRow: number = row, minCol: number = column, maxCol: number = column;
-        for (let i = -1; row+i >= Math.max(0, row-3) && column-i <= Math.min(6, column+3); i--) {
+        for (let i = -1; row+i >= Math.max(0, row-3) && column-i <= Math.min(this.MAXCOLVALUE, column+3); i--) {
             if (this.board[row+i][column+i] === player) {
                 minRow = row+i
                 maxCol = column-i
@@ -162,7 +165,7 @@ export class basicSolver {
             else { break }
         }
 
-        for (let i = 1; row+i <= Math.min(5, row+3) && column-i >= Math.max(0, column-3); i++) {
+        for (let i = 1; row+i <= Math.min(this.MAXROWVALUE, row+3) && column-i >= Math.max(0, column-3); i++) {
             if (this.board[row+i][column+i] === player) {
                 maxRow = row+i
                 minCol = column-i
@@ -212,10 +215,12 @@ export class basicSolver {
      * Play a winning/block move
      */
     private winRightAway = (player:any):boolean => {
-        for(let col = 0; col < 7; col++)
+        console.log("winRightAway: player: %d", player)
+        for(let col = 0; col <= this.MAXCOLVALUE; col++)
         {
             let row = this.getRowFree(col)
             if (row != -1 && this.checkWinMove(row, col, player)) {
+                console.log("found 4 for player: %d", player)
                 this.board[row][col] = this.player
                 return true
             }
@@ -243,19 +248,25 @@ export class basicSolver {
         }
         return false
     }
+    /**
+     * Try to play 3 coins aligned
+     * @returns successful 
+     */
     private play3aligned = ():boolean => {
         let rowColsFreeList = this.getRowColsFree()
         let rowColsFreeList2: [row:number, col:number][] = []
         console.log("play3aligned")
         for(let i=0; i < rowColsFreeList.length; i++) {
             const [row, col] = rowColsFreeList[i]
+            let upDontWin = (row === 0) || (row > 0 && !this.checkWinMove(row-1, col, this.opponentPlayer))
+            if (!upDontWin) { continue }
 
             let [count, minRow, minCol, maxRow, maxCol] = this.checkHorizontal(row, col, this.player)
             minCol = Math.min(minCol, col)
             maxCol = Math.max(maxCol, col)
             console.log("row: %d, col: %d, horizontal count: %d", row, col, count)
             let leftFree = minCol-1>=0 && !this.board[row][minCol-1]
-            let rightFree = maxCol+1<=6 && !this.board[row][maxCol+1]
+            let rightFree = maxCol+1<=this.MAXCOLVALUE && !this.board[row][maxCol+1]
             if (count == 2 && (leftFree || rightFree)) {
                 rowColsFreeList2.push(rowColsFreeList[i])
                 continue
@@ -277,7 +288,7 @@ export class basicSolver {
             maxRow = Math.max(maxRow, row)
             console.log("row: %d, col: %d, diag1 count: %d", row, col, count)
             leftFree = minCol-1>=0 && minRow-1>=0 && !this.board[minRow-1][minCol-1]
-            rightFree = maxCol+1<=6 && maxRow+1<=5 && !this.board[maxRow+1][maxCol+1]
+            rightFree = maxCol+1<=this.MAXCOLVALUE && maxRow+1<=this.MAXROWVALUE && !this.board[maxRow+1][maxCol+1]
             if (count == 2 && (leftFree || rightFree)) {
                 rowColsFreeList2.push(rowColsFreeList[i])
                 continue
@@ -289,8 +300,8 @@ export class basicSolver {
             minRow = Math.min(minRow, row)
             maxRow = Math.max(maxRow, row)
             console.log("row: %d, col: %d, diag2 count: %d", row, col, count)
-            leftFree = minCol-1>=0 && maxRow+1<=5 && !this.board[maxRow+1][minCol-1]
-            rightFree = maxCol+1<=6 && minRow-1>=0 && !this.board[minRow-1][maxCol+1]
+            leftFree = minCol-1>=0 && maxRow+1<=this.MAXROWVALUE && !this.board[maxRow+1][minCol-1]
+            rightFree = maxCol+1<=this.MAXCOLVALUE && minRow-1>=0 && !this.board[minRow-1][maxCol+1]
             if (count == 2 && (leftFree || rightFree)) {
                 rowColsFreeList2.push(rowColsFreeList[i])
                 continue
