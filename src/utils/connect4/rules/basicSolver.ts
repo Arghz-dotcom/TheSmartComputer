@@ -248,6 +248,60 @@ export class basicSolver {
         }
         return false
     }
+
+    private not3with2Attacks = ():boolean => {
+        let rowColsFreeList = this.getRowColsFree()
+        console.log("not3with2Attacks")
+        for(let i=0; i < rowColsFreeList.length; i++) {
+            const [row, col] = rowColsFreeList[i]
+
+            let [count, minRow, minCol, maxRow, maxCol] = this.checkHorizontal(row, col, this.opponentPlayer)
+            minCol = Math.min(minCol, col)
+            maxCol = Math.max(maxCol, col)
+            console.log("row: %d, col: %d, horizontal count: %d", row, col, count)
+            let leftFree = minCol-1>=0 && !this.board[row][minCol-1] 
+            let leftCanPlay = (row == this.MAXROWVALUE) || (row+1 <= this.MAXROWVALUE && this.board[row+1][minCol-1])
+            let rightFree = maxCol+1<=this.MAXCOLVALUE && !this.board[row][maxCol+1]
+            let rightCanPlay = (row == this.MAXROWVALUE) || (row+1 <= this.MAXROWVALUE && this.board[row+1][maxCol+1])
+            if (count == 2 && leftFree && leftCanPlay && rightFree && rightCanPlay) {
+                this.board[row][col] = this.player
+                return true
+            }
+
+            [count, minRow, minCol, maxRow, maxCol] = this.checkDiag1(row, col, this.opponentPlayer)
+            minCol = Math.min(minCol, col)
+            maxCol = Math.max(maxCol, col)
+            minRow = Math.min(minRow, row)
+            maxRow = Math.max(maxRow, row)
+            console.log("row: %d, col: %d, diag1 count: %d", row, col, count)
+            leftFree = minCol-1>=0 && minRow-1>=0 && !this.board[minRow-1][minCol-1]
+            leftCanPlay = this.board[minRow][minCol-1]
+            rightFree = maxCol+1<=this.MAXCOLVALUE && maxRow+1<=this.MAXROWVALUE && !this.board[maxRow+1][maxCol+1]
+            rightCanPlay = (maxRow+1 == this.MAXROWVALUE) || (maxRow+2<= this.MAXROWVALUE && this.board[maxRow+2][maxCol+1])
+            if (count == 2 && leftFree && leftCanPlay && rightFree && rightCanPlay) {
+                this.board[row][col] = this.player
+                return true
+            }
+
+            [count, minRow, minCol, maxRow, maxCol] = this.checkDiag2(row, col, this.opponentPlayer)
+            minCol = Math.min(minCol, col)
+            maxCol = Math.max(maxCol, col)
+            minRow = Math.min(minRow, row)
+            maxRow = Math.max(maxRow, row)
+            console.log("row: %d, col: %d, diag2 count: %d", row, col, count)
+            leftFree = minCol-1>=0 && maxRow+1<=this.MAXROWVALUE && !this.board[maxRow+1][minCol-1]
+            leftCanPlay = (maxRow+1 == this.MAXROWVALUE) || (maxRow+2<= this.MAXROWVALUE && this.board[maxRow+2][minCol-1])
+            rightFree = maxCol+1<=this.MAXCOLVALUE && minRow-1>=0 && !this.board[minRow-1][maxCol+1]
+            rightCanPlay = this.board[minRow][maxCol+1]
+            if (count == 2 && leftFree && leftCanPlay && rightFree && rightCanPlay) {
+                this.board[row][col] = this.player
+                return true
+            }
+        }
+
+        return false
+    }
+
     /**
      * Try to play 3 coins aligned
      * @returns successful 
@@ -324,7 +378,7 @@ export class basicSolver {
         //can block opponent
         if (this.winRightAway(this.opponentPlayer)) return
         //block if try 3 on baseline
-        if (this.not3onBaseline()) return
+        if (this.not3with2Attacks()) return
         // try play 3
         if (this.play3aligned()) return
         this.playRandomSmart()
