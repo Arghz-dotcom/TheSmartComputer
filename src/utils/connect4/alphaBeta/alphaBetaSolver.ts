@@ -1,9 +1,12 @@
+import { position } from "./position";
 
 export class alphaBetaSolver {
 
     private bitBoardPosition: BigInt = BigInt(0)
     private bitBoardMask: BigInt = BigInt(0)
     private player: any
+
+
     
     constructor(board: null[][], currentPlayer: any) {
         let bitboard = this.boardToBitBoard(board)
@@ -58,8 +61,10 @@ export class alphaBetaSolver {
         return [this.stringToBigInt(position), this.stringToBigInt(mask)]
     }
 
-    private negamax = ():number => {
-        
+    private negamax = (p:position):number => {
+        if (p.nbMoves() === p.NBCOINS) {
+            return 0
+        }
     }
 
 
