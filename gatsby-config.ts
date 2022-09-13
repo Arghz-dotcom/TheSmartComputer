@@ -6,6 +6,7 @@
 
 module.exports = {
   /* Your site config here */
+  pathPrefix: "/TheSmartComputer",
   siteMetadata: {
     title: "Dominique Gilleman",
     description: "I teach JavaScript, React, GraphQL and Gatsby",
