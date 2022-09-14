@@ -1,7 +1,7 @@
 import { basicSolver } from "./rules/basicSolver";
 
 
-export const generateNewBoard = ():null[][] => [
+export const generateNewBoard = ():(number | null)[][] => [
   [null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null],

@@ -12,7 +12,7 @@ export class basicSolver {
         return 3-this.player
     }
     
-    constructor(readonly board: null[][], readonly player: any) {}
+    constructor(readonly board: (number | null)[][], readonly player: any) {}
 
     /**
     * Generate random int
@@ -26,16 +26,12 @@ export class basicSolver {
         return Math.floor(Math.random() * (max - min + 1)) + min; 
     }
 
-    public hello = ():string => {
-        return "hello world"
-    }
-
     /**
      * get first row free in column
      * @param col column in board
      * @returns return row if available, otherwise -1
      */
-    private getRowFree = (col: number): number => {
+    public getRowFree = (col: number): number => {
         for(let row = this.MAXROWVALUE; row >= 0; row--) {
             if (!this.board[row][col]) {
               return row
@@ -44,7 +40,7 @@ export class basicSolver {
         return -1
     }
 
-    private getRowColsFree = ():[row:number, col:number][] => {
+    public getRowColsFree = ():[row:number, col:number][] => {
         let freeColRowList: [number, number][] = []
         for(let col = 0; col <= this.MAXCOLVALUE; col++) {
             let row = this.getRowFree(col)
@@ -275,7 +271,7 @@ export class basicSolver {
      * Block opponent if he can align 3 coins with 2 immediate attacks
      * @returns successful
      */
-    private not3with2Attacks = ():boolean => {
+    public not3with2Attacks = ():boolean => {
         let rowColsFreeList = this.getRowColsFree()
         console.log("not3with2Attacks")
         for(let i=0; i < rowColsFreeList.length; i++) {
