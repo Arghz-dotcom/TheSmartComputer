@@ -26,6 +26,10 @@ export class basicSolver {
         return Math.floor(Math.random() * (max - min + 1)) + min; 
     }
 
+    public hello = ():string => {
+        return "hello world"
+    }
+
     /**
      * get first row free in column
      * @param col column in board
