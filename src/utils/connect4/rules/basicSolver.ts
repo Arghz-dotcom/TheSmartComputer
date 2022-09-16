@@ -89,11 +89,12 @@ export class basicSolver {
         this.board[row][col] = this.player
     }
 
-    private checkHorizontal = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
-        let count = 0, minCol:number = column, maxCol:number = column;
+    public checkHorizontal = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minCol:number = Infinity, maxCol:number = -Infinity;
         for (let c = column-1; c >= Math.max(0, column-3); c--) {
             if (this.board[row][c] === player) {
-                minCol = c
+                minCol = Math.min(minCol, c)
+                maxCol = Math.max(maxCol, c)
                 count++
             } 
             else { break }
@@ -101,7 +102,8 @@ export class basicSolver {
 
         for (let c = column+1; c <= Math.min(this.MAXCOLVALUE, column+3); c++) {
             if (this.board[row][c] === player) {
-                maxCol = c
+                minCol = Math.min(minCol, c)
+                maxCol = Math.max(maxCol, c)
                 count++
             }
             else { break }
@@ -110,19 +112,13 @@ export class basicSolver {
         return [count, row, minCol, row, maxCol]
     }
 
-    private checkVertical = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
-        let count = 0, minRow:number = row, maxRow: number = row;
-        for (let r = row-1; r >= Math.max(0, row-3); r--) {
-            if (this.board[r][column] === player) {
-                minRow = r
-                count++
-            }  
-            else { break }
-        }
+    public checkVertical = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minRow:number = Infinity, maxRow: number = -Infinity;
             
         for (let r = row+1; r <= Math.min(this.MAXROWVALUE, row+3); r++) {
             if (this.board[r][column] === player) {
-                maxRow = r
+                minRow = Math.min(minRow, r)
+                maxRow = Math.max(maxRow, r)
                 count++
             }
             else { break }
@@ -131,12 +127,14 @@ export class basicSolver {
         return [count, minRow, column, maxRow, column]
     }
 
-    private checkDiag1 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
-        let count = 0, minRow: number = row, maxRow: number = row, minCol: number = column, maxCol: number = column;
+    public checkDiag1 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minRow: number = Infinity, maxRow: number = -Infinity, minCol: number = Infinity, maxCol: number = -Infinity;
         for (let i = -1; row+i >= Math.max(0, row-3) && column+i >= Math.max(0, column-3); i--) {
             if (this.board[row+i][column+i] === player) {
-                minRow = row+i
-                minCol = column+i
+                minRow = Math.min(row+i, minRow)
+                maxRow = Math.max(row+i, maxRow)
+                minCol = Math.min(column+i, minCol)
+                maxCol = Math.max(column+i, maxCol)
                 count++;
             }
             else { break }
@@ -144,8 +142,10 @@ export class basicSolver {
             
         for (let i = 1; row+i <= Math.min(this.MAXROWVALUE, row+3) && column+i <= Math.min(this.MAXCOLVALUE, column+3); i++) {
             if (this.board[row+i][column+i] === player) {
-                maxRow = row+i
-                maxCol = column+i
+                minRow = Math.min(row+i, minRow)
+                maxRow = Math.max(row+i, maxRow)
+                minCol = Math.min(column+i, minCol)
+                maxCol = Math.max(column+i, maxCol)
                 count++;
             }
             else { break }
@@ -154,21 +154,25 @@ export class basicSolver {
         return [count, minRow, minCol, maxRow, maxCol]
     }
 
-    private checkDiag2 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
-        let count = 0, minRow: number = row, maxRow: number = row, minCol: number = column, maxCol: number = column;
+    public checkDiag2 = (row:number, column:number, player:any):[count: number, minRow: number, minCol: number, maxRow: number, maxCol: number] => {
+        let count = 0, minRow: number = Infinity, maxRow: number = -Infinity, minCol: number = Infinity, maxCol: number = -Infinity;
         for (let i = -1; row+i >= Math.max(0, row-3) && column-i <= Math.min(this.MAXCOLVALUE, column+3); i--) {
-            if (this.board[row+i][column+i] === player) {
-                minRow = row+i
-                maxCol = column-i
+            if (this.board[row+i][column-i] === player) {
+                minRow = Math.min(row+i, minRow)
+                maxRow = Math.max(row+i, maxRow)
+                minCol = Math.min(column-i, minCol)
+                maxCol = Math.max(column-i, maxCol)
                 count++;
             }
             else { break }
         }
 
         for (let i = 1; row+i <= Math.min(this.MAXROWVALUE, row+3) && column-i >= Math.max(0, column-3); i++) {
-            if (this.board[row+i][column+i] === player) {
-                maxRow = row+i
-                minCol = column-i
+            if (this.board[row+i][column-i] === player) {
+                minRow = Math.min(row+i, minRow)
+                maxRow = Math.max(row+i, maxRow)
+                minCol = Math.min(column-i, minCol)
+                maxCol = Math.max(column-i, maxCol)
                 count++;
             }
             else { break }
