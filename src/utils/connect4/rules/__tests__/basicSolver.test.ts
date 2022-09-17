@@ -219,6 +219,52 @@ test("checkDiag2", () => {
     expect(maxCol).toBe(4)
 })
 
+test("checkDiag2-2", () => {
+    //arrange
+    let board = [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, 1   , null, null, null],
+        [null, null, 1   , null, null, null, null],
+        [null, 1   , null, null, null, null, null],
+    ]
+    let solver = new basicSolver(board, 1)
+
+    //act
+    let [count, minRow, minCol, maxRow, maxCol] = solver.checkDiag2(2, 4, 1)
+
+    //assert
+    expect(count).toBe(3)
+    expect(minRow).toBe(3)
+    expect(minCol).toBe(1)
+    expect(maxRow).toBe(5)
+    expect(maxCol).toBe(3)
+})
+
+test("checkDiag2-3", () => {
+    //arrange
+    let board = [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, 1   , null, null],
+        [null, null, null, 1   , null, null, null],
+        [null, null, 1   , null, null, null, null],
+        [null, null, null, null, null, null, null],
+    ]
+    let solver = new basicSolver(board, 1)
+
+    //act
+    let [count, minRow, minCol, maxRow, maxCol] = solver.checkDiag2(5, 1, 1)
+
+    //assert
+    expect(count).toBe(3)
+    expect(minRow).toBe(2)
+    expect(minCol).toBe(2)
+    expect(maxRow).toBe(4)
+    expect(maxCol).toBe(4)
+})
+
 test("not3with2Attacks-Horizontal", () => {
     //arrange
     let board = [
@@ -279,7 +325,27 @@ test("not3with2Attacks-Horizontal-3", () => {
     expect(board[4][3]).toBe(1)
 })
 
-test("not3with2Attacks-diag", () => {
+test("not3with2Attacks-diag1", () => {
+    //arrange
+    let board = [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, 1   , 2   , null, null, null, null],
+        [null, 2   , 1   , 2   , null, null, null],
+        [null, 2   , 1   , 1   , null, null, null],
+        [null, 2   , 1   , 2   , 1   , null, null],
+    ]
+    let solver = new basicSolver(board, 1)
+
+    //act
+    let result = solver.not3with2Attacks()
+
+    //assert
+    expect(result).toBeTruthy()
+    expect(board[4][4]).toBe(1)
+})
+
+test("not3with2Attacks-diag2", () => {
     //arrange
     let board = [
         [null, null, null, null, null, null, null],
