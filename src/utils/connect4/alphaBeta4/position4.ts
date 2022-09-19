@@ -4,7 +4,7 @@ export class position4 {
     public static readonly HEIGHT = 6
     public static readonly NBCOINS = 42
 
-    private height: number[] = []
+    private height: number[] = new Array(7).fill(0)
     private moves: number = 0
     private board: (number | null)[][]
     
@@ -19,11 +19,11 @@ export class position4 {
           ]
     }
 
-    private get currentPlayer(): number {
+    private currentPlayer(): number {
         return 1 + this.moves % 2
     }
     
-    public get nbMoves():number {
+    public nbMoves():number {
         return this.moves
     }
 
@@ -33,9 +33,9 @@ export class position4 {
 
     public isWinningMove = (col: number):boolean => {
         if (this.height[col] >= 3
-            && this.board[this.height[col]-1][col] === this.currentPlayer
-            && this.board[this.height[col]-2][col] === this.currentPlayer
-            && this.board[this.height[col]-3][col] === this.currentPlayer
+            && this.board[this.height[col]-1][col] === this.currentPlayer()
+            && this.board[this.height[col]-2][col] === this.currentPlayer()
+            && this.board[this.height[col]-3][col] === this.currentPlayer()
             )
             return true
         
@@ -54,9 +54,15 @@ export class position4 {
     }
 
     public play = (col: number) => {
-        this.board[this.height[col]][col] = this.currentPlayer
+        this.board[this.height[col]][col] = this.currentPlayer()
         this.height[col]++
         this.moves++
+    }
+
+    public unplay = (col: number) => {
+        this.height[col]--
+        this.board[this.height[col]][col] = null
+        this.moves--
     }
 
     public playSequence = (seq:string):number => {
