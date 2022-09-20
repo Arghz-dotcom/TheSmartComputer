@@ -6,6 +6,7 @@ export class alphaBetaLevel5Solver implements alphaBetaSolverInterface {
     public nodeCount: number = 0
     public elapsedTimeMs: number = 0
     private pos!: position;
+    private readonly columnOrder = [3,2,4,1,5,0,6]
 
     constructor(readonly player: number) {}
 
@@ -30,10 +31,11 @@ export class alphaBetaLevel5Solver implements alphaBetaSolverInterface {
         }
 
         for(let col = 0; col < position.WIDTH; col++) {
-            if(this.pos.canPlay(col)) {
-                this.pos.play(col)
+            let realCol = this.columnOrder[col]
+            if(this.pos.canPlay(realCol)) {
+                this.pos.play(realCol)
                 let score = -this.negamax(-beta, -alpha, depth - 1)
-                this.pos.unplay(col)
+                this.pos.unplay(realCol)
                 if (score >= beta) return score
                 alpha = Math.max(alpha, score)
             }
