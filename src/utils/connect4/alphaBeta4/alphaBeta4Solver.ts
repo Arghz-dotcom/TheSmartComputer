@@ -2,17 +2,18 @@ import { position4 as position } from "./position4";
 
 export class alphaBetaLevel4Solver {
     public nodeCount: number = 0
+    public elapsedTimeMs: number = 0
 
-    constructor(readonly player: any) {}
+    constructor(readonly player: number) {}
 
     private maxAlphaBeta = (p: position):number => {
         return Math.trunc((position.NBCOINS + 1 - p.nbMoves())/2)
     }
 
-    public negamax = (p: position, alpha:number, beta: number):number => {
+    public negamax = (p: position, alpha:number, beta: number, depth: number):number => {
         this.nodeCount++
 
-        if (p.nbMoves() == position.NBCOINS)
+        if (depth == 0 || p.nbMoves() == position.NBCOINS)
             return 0
 
         for(let col = 0; col < position.WIDTH; col++)
@@ -28,7 +29,7 @@ export class alphaBetaLevel4Solver {
         for(let col = 0; col < position.WIDTH; col++) {
             if(p.canPlay(col)) {
                 p.play(col)
-                let score = -this.negamax(p, -beta, -alpha)
+                let score = -this.negamax(p, -beta, -alpha, depth - 1)
                 p.unplay(col)
                 if (score >= beta) return score
                 alpha = Math.max(alpha, score)
@@ -39,9 +40,13 @@ export class alphaBetaLevel4Solver {
     }
     
     
-    public solve = (p: position):number => {
+    public solve = (p: position, maxDepth: number):number => {
         this.nodeCount = 0
 
-        return this.negamax(p, -position.NBCOINS/2, position.NBCOINS/2)
+        let startTime = Date.now()
+        let result = this.negamax(p, -position.NBCOINS/2, position.NBCOINS/2, maxDepth)
+        this.elapsedTimeMs = Date.now() - startTime
+
+        return result
     }
 }

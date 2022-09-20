@@ -60,16 +60,16 @@ export class position4 {
     }
 
     public unplay = (col: number) => {
+        this.moves--
         this.height[col]--
         this.board[this.height[col]][col] = null
-        this.moves--
     }
 
     public playSequence = (seq:string):number => {
-        for(let i = 0; i < seq.length; i++) {
-            let col = parseInt(seq[i]) - 1
+        for(let indexSeq = 0; indexSeq < seq.length; indexSeq++) {
+            let col = parseInt(seq[indexSeq]) - 1
             if (col < 0 || col >= position4.WIDTH || !this.canPlay(col) || this.isWinningMove(col))
-                return i
+                return indexSeq
             this.play(col)
         }
         return seq.length
