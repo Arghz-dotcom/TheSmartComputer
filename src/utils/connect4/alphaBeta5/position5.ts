@@ -1,6 +1,5 @@
-import { generateNewBoard } from "../gameUtils"
 
-export class position4 {
+export class position5 {
     public static readonly WIDTH = 7
     public static readonly HEIGHT = 6
     public static readonly NBCOINS = 42
@@ -20,11 +19,6 @@ export class position4 {
           ]
     }
 
-    public initialize() {
-        this.board = generateNewBoard()
-
-    }
-
     private currentPlayer(): number {
         return 1 + this.moves % 2
     }
@@ -33,11 +27,11 @@ export class position4 {
         return this.moves
     }
 
-    public canPlay(col: number):boolean {
-        return this.height[col] < position4.HEIGHT
+    public canPlay = (col: number):boolean => {
+        return this.height[col] < position5.HEIGHT
     }
 
-    public isWinningMove(col: number):boolean {
+    public isWinningMove = (col: number):boolean => {
         if (this.height[col] >= 3
             && this.board[this.height[col]-1][col] === this.currentPlayer()
             && this.board[this.height[col]-2][col] === this.currentPlayer()
@@ -48,7 +42,7 @@ export class position4 {
         for(let dy = -1; dy <= 1; dy++) {
             let nb = 0
             for (let dx = -1; dx <= 1; dx += 2) {
-                for(let x = col + dx, y = this.height[col] + dx * dy; x >= 0 && x < position4.WIDTH && y >= 0 && y < position4.HEIGHT && this.board[y][x] == this.currentPlayer(); nb++) {
+                for(let x = col + dx, y = this.height[col] + dx * dy; x >= 0 && x < position5.WIDTH && y >= 0 && y < position5.HEIGHT && this.board[y][x] == this.currentPlayer(); nb++) {
                     x += dx
                     y += dx * dy
                 }
@@ -74,7 +68,7 @@ export class position4 {
     public playSequence = (seq:string):number => {
         for(let indexSeq = 0; indexSeq < seq.length; indexSeq++) {
             let col = parseInt(seq[indexSeq]) - 1
-            if (col < 0 || col >= position4.WIDTH || !this.canPlay(col) || this.isWinningMove(col))
+            if (col < 0 || col >= position5.WIDTH || !this.canPlay(col) || this.isWinningMove(col))
                 return indexSeq
             this.play(col)
         }

@@ -1,8 +1,8 @@
-import { alphaBetaSolverInterface } from "../alphaBeta/alphaBetaSolverInterface"
+import { alphaBetaSolverInterface } from "../alphaBeta/alphaBetaSolverInterface";
 import { generateNewBoard } from "../gameUtils";
-import { position4 as position } from "./position4";
+import { position5 as position } from "./position5";
 
-export class alphaBetaLevel4Solver implements alphaBetaSolverInterface {
+export class alphaBetaLevel5Solver implements alphaBetaSolverInterface {
     public nodeCount: number = 0
     public elapsedTimeMs: number = 0
     private pos!: position;
@@ -41,12 +41,11 @@ export class alphaBetaLevel4Solver implements alphaBetaSolverInterface {
 
         return alpha
     }
-
+    
     public playSequence(seq:string) {
         this.pos = new position(generateNewBoard())
         this.pos.playSequence(seq)
     }
-    
     
     public solve(maxDepth: number):number {
         this.nodeCount = 0
