@@ -1,24 +1,25 @@
 import { alphaBetaSolverInterface } from "../alphaBeta/alphaBetaSolverInterface";
 import { generateNewBoard } from "../gameUtils";
-import { position5 as position } from "./position5";
+import { position6 as position } from "./position6";
 
 
-export class alphaBetaLevel5Solver implements alphaBetaSolverInterface {
+export class alphaBetaLevel6Solver implements alphaBetaSolverInterface {
     public nodeCount: number = 0
     public elapsedTimeMs: number = 0
     private pos!: position;
     private readonly columnOrder = [3,2,4,1,5,0,6]
+    private logFilename = "d:/temp/pons/alphabeta6.log"
 
     constructor(readonly player: number) {}
 
     private maxAlphaBeta():number {
-        return Math.trunc((position.NBCOINS + 1 - this.pos.nbMoves())/2)
+        return Math.trunc((position.NBCOINS + 1 - this.pos.moves)/2)
     }
 
     public negamax(alpha:number, beta: number, depth: number):number {
         this.nodeCount++
 
-        if (depth == 0 || this.pos.nbMoves() == position.NBCOINS)
+        if (depth == 0 || this.pos.moves == position.NBCOINS)
             return 0
 
         for(let col = 0; col < position.WIDTH; col++)

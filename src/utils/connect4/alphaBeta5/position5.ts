@@ -6,7 +6,7 @@ export class position5 {
 
     private height: number[] = new Array(7).fill(0)
     private moves: number = 0
-    private board: (number | null)[][]
+    public board: (number | null)[][]
     
     constructor(readonly inputboard: (number | null)[][]) {
         this.board = [
@@ -54,8 +54,7 @@ export class position5 {
     }
 
     public play = (col: number) => {
-        this.board[this.height[col]][col] = this.currentPlayer()
-        this.height[col]++
+        this.board[this.height[col]++][col] = this.currentPlayer()
         this.moves++
     }
 

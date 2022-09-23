@@ -2,14 +2,14 @@ import { readFileSync } from "fs";
 import { alphaBetaSolverInterface } from "../alphaBeta/alphaBetaSolverInterface";
 
 
-export function batchTest(filesTest:string[], solver:alphaBetaSolverInterface) {
+export function batchTest(filesTest:string[], solver:alphaBetaSolverInterface, nbReadRows:number) {
     let path = require("path");
 
     for(let indexFile = 0; indexFile < filesTest.length; indexFile++) {
         let absPath = path.resolve("./src/utils/data/" + filesTest[indexFile])
         let data = readFileSync(absPath, "utf-8")
         let splitted = data.split(/\r?\n/);
-        let nbReadRows = Math.min(50, splitted.length)
+        nbReadRows = Math.min(nbReadRows, splitted.length)
         let totalNodeCount = 0, totalTimeMs = 0
         
         for(let indexRow = 0; indexRow < nbReadRows; indexRow++) {            
